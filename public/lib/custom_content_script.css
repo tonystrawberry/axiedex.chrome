@@ -1,0 +1,30 @@
+.AxieDexFindSimilarButton {
+  margin: 0 10px 10px 10px !important;
+}
+
+.AxieDexButton {
+  background: 0 0;
+  border: 1px solid #3c424d;
+  color: #fff;
+
+  font-size: 14px;
+  height: 40px;
+  line-height: 20px;
+  padding: 0 16px;
+
+  align-items: center;
+  border-radius: 8px;
+  display: inline-flex;
+  font-weight: 500;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+
+  -webkit-appearance: button;
+  margin: 0;
+}
