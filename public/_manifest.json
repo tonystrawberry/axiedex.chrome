@@ -11,7 +11,7 @@
     "48": "images/icon_48x48.png",
     "128": "images/icon_128x128.png"
   },
-  "action": {
+  "browser_action": {
     "default_popup": "popup.html",
     "default_title": "AxieDex - The Ultimate Axie Infinity Extension",
     "default_icon": {
@@ -22,33 +22,30 @@
     }
   },
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
   },
   "content_scripts": [
     {
       "matches": [
-        "https://app.axieinfinity.com/*"
+        "https://marketplace.axieinfinity.com/*"
+      ],
+      "css": [
+        "lib/custom_content_script.css",
+        "lib/jquery-ui.css"
       ],
       "js": [
         "lib/jquery-3.3.1.slim.js",
         "contentScript.js"
-      ],
-      "css": [
-        "lib/custom_content_script.css"
       ]
     }
   ],
   "web_accessible_resources": [
-    {
-      "resources": [
-        "data/bodyParts.json",
-        "data/cardInfos.json",
-        "images/originCards/*"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
-    }
+    "bodyParts.json",
+    "cardInfos.json",
+    "images/originCards/*"
   ],
-  "manifest_version": 3
+  "manifest_version": 2
 }

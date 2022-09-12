@@ -5,7 +5,8 @@
  */
 
 import { getAxieInfo } from "@/api/axieTechnology";
-import { buildSimilarAxieLink } from "@/utils/custom";
+import { buildSimilarAxieLink, getGenesQuality } from "@/utils/custom";
+import { OPTIONS, SIMILAR_AXIES_ENABLED } from "@/initializers/options";
 
 const SINGLE_AXIE_A_HREF_REGEX_PATTERN = /marketplace\/axies\/\d+/;
 
@@ -96,16 +97,32 @@ const customizeAxieSingleCard = function (axieElement: JQuery<HTMLElement>, axie
   /** 🔍 Find Similar Axies button **/
   /**********************************/
 
-  const similarAxieLink = buildSimilarAxieLink(axie);
-  const findSimilarAxiesButton = `<div class="AxieDexFindSimilarButton AxieDexButton">🔍 Find similar Axies</div>`;
+  if (OPTIONS[SIMILAR_AXIES_ENABLED]) {
+    const similarAxieLink = buildSimilarAxieLink(axie);
+    const findSimilarAxiesButton = `<div class="AxieDexFindSimilarButton AxieDexButton">🔍 Find similar Axies</div>`;
 
-  axieElement.append(findSimilarAxiesButton);
-  $(axieElement)
-    .find(".AxieDexFindSimilarButton")
-    .on("click", (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      window.open(similarAxieLink, "_blank");
-      return false;
-    });
+    axieElement.append(findSimilarAxiesButton);
+    $(axieElement)
+      .find(".AxieDexFindSimilarButton")
+      .on("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        window.open(similarAxieLink, "_blank");
+        return false;
+      });
+  }
+
+  /***********************/
+  /** 🔍 Purity Display **/
+  /***********************/
+  const content = $(axieElement).find('[class*="AxieCard_Content"]');
+  const purityElement = `<div style="display: flex; gap: 8px; position: absolute; right: 10px; top: 10px; font-size: 20px; font-weight: 700;">
+                            <div>
+                              <span style="font-size: 14px;margin-right: 4px;">G</span>${Math.round(getGenesQuality(axie) * 100)}<span style="font-size: 8px">%</span>
+                            </div>
+                            <div>
+                              <span style="font-size: 14px;margin-right: 4px;">C</span>${Math.round(axie.quality * 100)}<span style="font-size: 8px">%</span>
+                            </div>
+                          </div>`;
+  content.append(purityElement);
 };
