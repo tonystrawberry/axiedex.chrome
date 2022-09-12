@@ -25,8 +25,8 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 /**
  * Get Axie
  * @param {number} axieIds - Axie identifiers
- * @param {sendResponse} - Function that will return the result
- * @param {tryCount} - Number of tries (after 3 retries, stop retrying on fail)
+ * @param {Function} sendResponse- Function that will return the result
+ * @param {number} tryCount - Number of tries (after 3 retries, stop retrying on fail)
  */
 function getAxieInfo(axieIds: number[], sendResponse: Function, tryCount: number = 1) {
   fetch(`https://api.axie.technology/getaxies/${axieIds.join(",")}`)

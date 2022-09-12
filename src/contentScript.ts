@@ -8,12 +8,19 @@
 
 import { initializeSalesListPage } from "@/pages/salesListPage";
 import { initializeBodyParts } from "@/initializers/bodyParts";
+import { EXTENSION_ENABLED, getOptions, initializeOptions } from "@/initializers/options";
 
 /**
  * Method that will call everytime the current page needs to be initialized
  * (when the page is open for the first time or when the page has updated)
  */
-const initialize = async function () {
+const initialize = async function (returnedOptions: Options) {
+  const options: Options = initializeOptions(returnedOptions);
+
+  if (!options[EXTENSION_ENABLED]) {
+    return;
+  }
+
   initializeBodyParts();
 
   const isSalesListPage = window.location.pathname.startsWith("/marketplace/axies");
@@ -47,7 +54,9 @@ const observerCallback = function (mutationsList: any) {
   if (shouldInitialize(mutationsList)) {
     // Initialize the page with AxieDex again when changes in the DOM has been
     // detected (loader just disappeared or new AxieCard elements have been added)
-    setTimeout(initialize, 500);
+    setTimeout(() => {
+      getOptions(initialize);
+    }, 500);
   }
 };
 
@@ -74,10 +83,21 @@ function shouldInitialize(mutationsList: any) {
 }
 
 /**
+ * Listener for when the options have been updated by the user
+ */
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.rerun) {
+    getOptions(initialize);
+  }
+});
+
+/**
  * Start of the script
  *  - Initialize the current page once
  *  - Setup observer
  */
 
-initialize();
+// Currently, the extension will keep running if the page was previously loaded while enabled.
+// Need to reload page to disable inflight extension.
+getOptions(initialize);
 new MutationObserver(observerCallback).observe(document.body, OBSERVER_CONFIG);

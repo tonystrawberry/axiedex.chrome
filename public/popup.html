@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>AxieDex - The Ultimate Axie Extension</title>
+  <meta charset="utf-8">
+  <script src="lib/jquery-3.3.1.slim.js"></script>
+  <script src="lib/popup/popper.js"></script>
+  <script src="lib/popup/bootstrap.js"></script>
+  <script src="lib/popup/redrawBugWorkaround.js"></script>
+
+  <link rel="stylesheet" href="lib/popup/bootstrap.css">
+  <link rel="stylesheet" href="lib/popup/iconic/css/open-iconic-bootstrap.css">
+  <link rel="stylesheet" href="lib/popup/custom.css">
+
+  <!-- Firebase -->
+  <script src="lib/firebase/firebase-app.js"></script>
+  <script src="lib/firebase/firebase-auth.js"></script>
+  <script src="lib/firebase/firebase-firestore.js"></script>
+  <script src="lib/firebase/firebase-functions.js"></script>
+  <script src="lib/firebase/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="lib/firebase/firebase-ui-auth.css" />
+  <link rel="stylesheet" href="lib/firebaseui.css">
+
+  <!-- Bundled options.ts, popup.ts and firebase.ts -->
+  <script src="popup.js"></script>
+
+  <style>
+    body {
+      margin: 8px;
+      width: 400px;
+      padding: 15px 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <header class="d-flex align-items-center mb-2">
+      <img class="mr-2" src="images/icon_128x128.png" alt="AxieDex icon" width="40">
+      <h2 class="m-0">AxieDex</h2>
+
+    </header>
+    <hr class="mt-0">
+    <div id="members-portal" style="display:none;">
+      <h5 class>🌟 AxieDex Members Portal</h5>
+      <div class="alert alert-success" role="alert">
+        Sign up below and get access to more features (bookmarks, alerts, similar Axies search...)
+      </div>
+      <div class="alert alert-info" role="alert">
+        For already PRO members 🌟, please use the email you used when subscribing and please set a new password by
+        clicking on "Trouble signing in?".
+      </div>
+      <div class="firebase-container container my-2 mb-4">
+        <div id="firebaseui-auth-container"></div>
+      </div>
+    </div>
+
+
+    <h5 class=>🤖 Discord Server</h5>
+    <div class="alert alert-info" role="alert">
+      Hi there 👋　Leave a review on <a
+        href="https://chrome.google.com/webstore/detail/axiedex-the-ultimate-axie/bknllnbfmljmdocaodafmlhcfciicabo"
+        target="_blank">Google Chrome Web Store</a> 📣　and get <strong>50 SLPs for free</strong>. More infos <a
+        href="https://discord.gg/axwJZyQcRM" target="_blank">here</a>.
+    </div>
+    <a href="https://discord.gg/bm7MEAX63F" target="_blank" class="w-100 btn btn-info">Join our community 👯‍♂️</a>
+    <hr class>
+
+    <div id="purity" style="display:none;">
+      <h5 class=>✨ Purity Settings</h5>
+      <div class="container">
+        <div class="form-check mb-2" id="hideAxiesFormCheck">
+          <input class="form-check-input" type="checkbox" id="hideAxies">
+          <label class="form-check-label" for="hideAxies">
+            Hide Axies that do not fit the criteria 🗑
+          </label>
+        </div>
+        <div class="row" id="purityTableHeader">
+          <div class="text-center col-3 px-2 text-muted"><strong class="text-xs">Type</strong></div>
+          <div class="text-center col-3 px-2 text-muted"><strong class="text-xs">Purity</strong></div>
+          <div class="text-center col-4 px-2 text-muted"><strong class="text-xs">Color</strong></div>
+          <div class="text-center col-2 px-2">
+          </div>
+        </div>
+        <div id="purityTable">
+        </div>
+        <div id="alertContainer">
+
+        </div>
+        <div id="purityActions">
+          <div class="row my-3">
+            <div class="col-12 px-2">
+              <button type="button" class="w-100 btn btn-success" id="updatePurity">Update</button>
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-12 px-2">
+              <button type="button" class="w-100 btn btn-info" id="addPurity">Add a search condition</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="mt-0">
+    </div>
+
+    <h5 class=>⚙️ Extension Settings</h5>
+    <div class="container mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="showAuctions">
+        <label class="form-check-label" for="showAuctions">
+          Show Auctions on Axie cards 📉
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="showHatch">
+        <label class="form-check-label" for="showHatch">
+          Show Hatching Bar on Axie cards 🐣
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="eyesEarsGenesPurityIncluded">
+        <label class="form-check-label" for="eyesEarsGenesPurityIncluded">
+          Include Ears and Eyes genes in the G purity calculation 🧮
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="eyesEarsGenesSearchIncluded">
+        <label class="form-check-label" for="eyesEarsGenesSearchIncluded">
+          Include Ears and Eyes genes when looking for similar Axies 🔍
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="similarAxiesEnabled">
+        <label class="form-check-label" for="similarAxiesEnabled">
+          Show Axie card footer buttons 🔖
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="genesPurityEnabled">
+        <label class="form-check-label" for="genesPurityEnabled">
+          Show genes purity value 🔍
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="onlyPopup">
+        <label class="form-check-label" for="onlyPopup">
+          Only show gene details on mouse hover 🔍
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="extensionEnabled">
+        <label class="form-check-label" for="extensionEnabled">
+          Enable extension 🔌
+        </label>
+      </div>
+    </div>
+    <hr class="mt-0">
+    <h5 class=>🙏 Credits</h5>
+    <div class="container">
+      <div><strong>Thank you</strong> <a href="mailto:matt@mattandroxanne.com" target="_blank">Explorer</a> for giving
+        me access to your API endpoints 🥳</div>
+      <div><strong>Thank you</strong> <a href="https://freakitties.github.io/axie/" target="_blank">Freak</a> for
+        discovering how Axies genes are parsed from raw data 😎</div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -3,6 +3,8 @@
  * @author tonystrawberry
  */
 
+import { EYES_EARS_GENES_SEARCH_INCLUDED, OPTIONS } from "@/initializers/options";
+
 /**
  * Build a link searching for similar Axies from an Axie object
  * @param {Axie} axie - An Axie Object
@@ -18,5 +20,9 @@ export const buildSimilarAxieLink = function (axie: Axie) {
   const eyesPartId = axie.traits.eyes.d.partId;
   const earsPartId = axie.traits.ears.d.partId;
 
-  return `https://app.axieinfinity.com/marketplace/axies/?part=${backPartId}&part=${mouthPartId}&part=${hornPartId}&part=${tailPartId}&part=${eyesPartId}&part=${earsPartId}`;
+  if (OPTIONS[EYES_EARS_GENES_SEARCH_INCLUDED]) {
+    return `https://app.axieinfinity.com/marketplace/axies/?part=${backPartId}&part=${mouthPartId}&part=${hornPartId}&part=${tailPartId}&part=${eyesPartId}&part=${earsPartId}`;
+  } else {
+    return `https://app.axieinfinity.com/marketplace/axies/?part=${backPartId}&part=${mouthPartId}&part=${hornPartId}&part=${tailPartId}`;
+  }
 };
