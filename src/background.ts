@@ -4,6 +4,8 @@
  * @author tonystrawberry
  */
 
+import { SEARCH_BOOKMARKS } from "@/initializers/options";
+import { putOption } from "@/utils/options"
 /**
  * Chrome runtime listeners (onMessage, onInstalled)
  * All listenable events can be found here: https://developer.chrome.com/docs/extensions/reference/runtime/#event
@@ -15,8 +17,15 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     getAxieInfo(request.axieIds, sendResponse);
   }
 
+  if (request.contentScriptQuery == "updateSearchBookmarks") {
+    console.log("request.bookmarks", request.bookmarks)
+    putOption(SEARCH_BOOKMARKS, request.bookmarks);
+    sendResponse(true);
+  }
+
   return true;
 });
+
 
 /**
  * Methods called when chrome.runtime.onMessage receives a message from contentScript.js
