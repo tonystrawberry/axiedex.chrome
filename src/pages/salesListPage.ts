@@ -143,6 +143,7 @@ const addBookmarksSidebar = function() {
   /* General changes to the default */
   $(axieListingElement).addClass("AxieDexCustomized");
 
+  /* Initialize the AxieDex sidebar */
   const axiedexSidebar = `
     <div class="AxieDexSidebar" style="width: 200px; border-right: 1px solid #282c34; padding: 16px;">
       <div class="AxieDexSearchBookmarksContainer">
@@ -165,21 +166,30 @@ const addBookmarksSidebar = function() {
 
   axieListingElement.prepend(axiedexSidebar);
 
+  /* Initialize the AxieDex search bookmark 🔖 */
+  initializeSearchBookmarkInSidebar(axieListingElement)
+}
+
+/**
+ * Initialize the AxieDex search bookmark space in the sidebar
+ * @param {JQuery<HTMLElement>} axieListingElement - Default Axie Listing Container element
+ */
+const initializeSearchBookmarkInSidebar = function(axieListingElement: JQuery<HTMLElement>)  {
   const axiedexSearchBookmarksLinksContainer = $(axieListingElement).find(".AxieDexSearchBookmarksLinks")
 
   const bookmarks = OPTIONS[SEARCH_BOOKMARKS];
 
   if (bookmarks && bookmarks.length > 0) {
-    for (let i = 0; i < bookmarks.length; i++) {
+    for (const bookmark of bookmarks) {
       const SEARCH_BOOKMARK_LINK_HTML = `
-          <div class="AxieDexSearchBookmark mt-8 flex" data-name="%NAME%" data-link="${bookmarks[i].link}">
-            <div class="w-4/5">
-              <span class="mr-8">📖</span><a class="mr-8" href="${bookmarks[i].link}">${bookmarks[i].name}</a>
-            </div>
-            <div class="w-1/5 text-right">
-              <span class="AxieDexSearchDeleteBookmark" data-link="${bookmarks[i].link}" style="cursor:pointer">❌</span>
-            </div>
+        <div class="AxieDexSearchBookmark mt-8 flex" data-name="%NAME%" data-link="${bookmark.link}">
+          <div class="w-4/5">
+            <span class="mr-8">📖</span><a class="mr-8" href="${bookmark.link}">${bookmark.name}</a>
           </div>
+          <div class="w-1/5 text-right">
+            <span class="AxieDexSearchDeleteBookmark" data-link="${bookmark.link}" style="cursor:pointer">❌</span>
+          </div>
+        </div>
       `;
 
       axiedexSearchBookmarksLinksContainer.append(SEARCH_BOOKMARK_LINK_HTML)
@@ -206,17 +216,18 @@ const addBookmarksSidebar = function() {
       );
     });
 
+    /* For the save button 💾, attach a listener */
     $("#AxieDexSearchBookmarksSaveButton").on("click", function () {
       const input = $("#AxieDexSearchBookmarksSaveInput");
       if (!input.val() || input.val() === "") {
-        alert("Please input a name for this bookmark.");
+        alert("Please set a name for this bookmark 🙏");
         return;
       }
 
       const alreadyBookmark = bookmarks.find((b) => b.link == location.href);
       if (alreadyBookmark) {
         alert(
-          `This page has already been bookmarked under the name '${alreadyBookmark.name}'.`
+          `This page has already been bookmarked under the name '${alreadyBookmark.name}' 😅`
         );
         return;
       }

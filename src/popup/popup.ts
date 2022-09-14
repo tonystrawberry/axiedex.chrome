@@ -2,23 +2,24 @@
  * Utility methods for handling the user preferences (options)
  * @author tonystrawberry
  */
-import { putOption, getOptions, resetOptions} from "@/utils/options"
-
-const PURITY_TABLE = "PURITY_TABLE";
-const EXTENSION_ENABLED = "EXTENSION_ENABLED";
-const ONLY_POPUP = "ONLY_POPUP";
-const SEARCH_BOOKMARKS = "SEARCH_BOOKMARKS";
-const AXIE_BOOKMARKS = "AXIE_BOOKMARKS";
-const HIDE_AXIES = "HIDE_AXIES";
-const SIMILAR_AXIES_ENABLED = "SIMILAR_AXIES_ENABLED";
-const SHOW_GENES_PURITY = "SHOW_GENES_PURITY";
-const EYES_EARS_GENES_PURITY_INCLUDED = "EYES_EARS_GENES_PURITY_INCLUDED";
-const EYES_EARS_GENES_SEARCH_INCLUDED = "EYES_EARS_GENES_SEARCH_INCLUDED";
-const SHOW_AUCTIONS = "SHOW_AUCTIONS";
-const SHOW_HATCH = "SHOW_HATCH";
-const SHOW_V3 = "SHOW_V3";
-const USER_UID = "USER_UID";
-const USER = "USER";
+import {
+  PURITY_TABLE,
+  EXTENSION_ENABLED,
+  ONLY_POPUP,
+  SEARCH_BOOKMARKS,
+  AXIE_BOOKMARKS,
+  HIDE_AXIES,
+  SIMILAR_AXIES_ENABLED,
+  SHOW_GENES_PURITY,
+  EYES_EARS_GENES_PURITY_INCLUDED,
+  EYES_EARS_GENES_SEARCH_INCLUDED,
+  SHOW_AUCTIONS,
+  SHOW_HATCH,
+  SHOW_V3,
+  USER_UID,
+  USER,
+  putOption, getOptions, resetOptions
+} from "@/utils/options"
 
 const optionsKeys = [
   PURITY_TABLE,
@@ -47,10 +48,10 @@ const optionsKeys = [
 declare const firebase: any;
 declare const firebaseui: any;
 
-var currentUser: any = null;
-var currentCustomer: any = null;
-var ui: any = null;
-var db: any = null;
+let currentUser: any = null;
+let currentCustomer: any = null;
+let ui: any = null;
+let db: any = null;
 
 /* HTML Elements to be injected */
 const newPurityRow = `

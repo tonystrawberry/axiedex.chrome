@@ -18,7 +18,6 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   }
 
   if (request.contentScriptQuery == "updateSearchBookmarks") {
-    console.log("request.bookmarks", request.bookmarks)
     putOption(SEARCH_BOOKMARKS, request.bookmarks);
     sendResponse(true);
   }
