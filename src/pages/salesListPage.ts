@@ -165,8 +165,7 @@ const addBookmarksSidebar = function () {
         </div>
       </div>
       <div class="AxieDexAxieBookmarksContainer mt-12">
-        <div style="font-size: 16px; font-weight: 600">Axies bookmarks</div>
-
+        <div style="font-size: 16px; font-weight: 600"></div>
       </div>
     </div>
   `;
