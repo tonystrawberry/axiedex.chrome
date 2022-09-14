@@ -4,8 +4,7 @@
  * @author tonystrawberry
  */
 
-import { SEARCH_BOOKMARKS } from "@/initializers/options";
-import { putOption } from "@/utils/options"
+import { SEARCH_BOOKMARKS, putOption } from "@/utils/options"
 /**
  * Chrome runtime listeners (onMessage, onInstalled)
  * All listenable events can be found here: https://developer.chrome.com/docs/extensions/reference/runtime/#event

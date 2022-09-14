@@ -6,7 +6,14 @@
 
 import { getAxieInfo } from "@/api/axieTechnology";
 import { buildSimilarAxieLink, getGenesQuality } from "@/utils/custom";
-import { OPTIONS, SIMILAR_AXIES_ENABLED, SEARCH_BOOKMARKS, initializeOptions } from "@/initializers/options";
+import { OPTIONS } from "@/initializers/options";
+import { SEARCH_BOOKMARKS, SIMILAR_AXIES_ENABLED } from "@/utils/options";
+
+declare global {
+  interface JQuery {
+    sortable(options: any): void;
+  }
+}
 
 const SINGLE_AXIE_A_HREF_REGEX_PATTERN = /marketplace\/axies\/\d+/;
 
@@ -133,10 +140,10 @@ const customizeAxieSingleCard = function (axieElement: JQuery<HTMLElement>, axie
 /**
  * 🔖 Add bookmarks sidebar DOM element
  */
-const addBookmarksSidebar = function() {
+const addBookmarksSidebar = function () {
   const axieListingElement = $('[class*="Axies_ListingWrapper"]');
 
-  if ($(axieListingElement).hasClass("AxieDexCustomized")){
+  if ($(axieListingElement).hasClass("AxieDexCustomized")) {
     return;
   }
 
@@ -147,7 +154,7 @@ const addBookmarksSidebar = function() {
   const axiedexSidebar = `
     <div class="AxieDexSidebar" style="width: 200px; border-right: 1px solid #282c34; padding: 16px;">
       <div class="AxieDexSearchBookmarksContainer">
-        <div style="font-size: 16px; font-weight: 600">Search bookmarks</div>
+        <div style="font-size: 16px; font-weight: 600"><div class="flex items-center cursor-pointer w-full"><img src="https://app.axieinfinity.com/static/image/love-potion.png" width="15" class="mr-4">Search bookmarks</div>
         <div class="AxieDexSearchBookmarksLinks mb-8"></div>
         <div class="input-group inline-block rounded relative w-full">
           <div class="absolute h-full px-12 flex items-center">🔖</div>
@@ -174,17 +181,17 @@ const addBookmarksSidebar = function() {
  * Initialize the AxieDex search bookmark space in the sidebar
  * @param {JQuery<HTMLElement>} axieListingElement - Default Axie Listing Container element
  */
-const initializeSearchBookmarkInSidebar = function(axieListingElement: JQuery<HTMLElement>)  {
+const initializeSearchBookmarkInSidebar = function (axieListingElement: JQuery<HTMLElement>) {
   const axiedexSearchBookmarksLinksContainer = $(axieListingElement).find(".AxieDexSearchBookmarksLinks")
 
-  const bookmarks = OPTIONS[SEARCH_BOOKMARKS];
+  const bookmarks = OPTIONS[SEARCH_BOOKMARKS] || [];
 
   if (bookmarks && bookmarks.length > 0) {
     for (const bookmark of bookmarks) {
       const SEARCH_BOOKMARK_LINK_HTML = `
-        <div class="AxieDexSearchBookmark mt-8 flex" data-name="%NAME%" data-link="${bookmark.link}">
+        <div class="AxieDexSearchBookmark mt-8 flex" data-name="${bookmark.name}" data-link="${bookmark.link}">
           <div class="w-4/5">
-            <span class="mr-8">📖</span><a class="mr-8" href="${bookmark.link}">${bookmark.name}</a>
+            <span class="mr-8">📖</span><a class="mr-8" style="font-size: 14px; font-weight: 400;" href="${bookmark.link}">${bookmark.name}</a>
           </div>
           <div class="w-1/5 text-right">
             <span class="AxieDexSearchDeleteBookmark" data-link="${bookmark.link}" style="cursor:pointer">❌</span>
@@ -215,39 +222,83 @@ const initializeSearchBookmarkInSidebar = function(axieListingElement: JQuery<HT
         }
       );
     });
-
-    /* For the save button 💾, attach a listener */
-    $("#AxieDexSearchBookmarksSaveButton").on("click", function () {
-      const input = $("#AxieDexSearchBookmarksSaveInput");
-      if (!input.val() || input.val() === "") {
-        alert("Please set a name for this bookmark 🙏");
-        return;
-      }
-
-      const alreadyBookmark = bookmarks.find((b) => b.link == location.href);
-      if (alreadyBookmark) {
-        alert(
-          `This page has already been bookmarked under the name '${alreadyBookmark.name}' 😅`
-        );
-        return;
-      }
-
-      bookmarks.push({ name: input.val() as string, link: location.href });
-
-      chrome.runtime.sendMessage(
-        {
-          contentScriptQuery: "updateSearchBookmarks",
-          bookmarks: bookmarks,
-        },
-        function () {
-          setTimeout(() => {
-            $(".AxieDexSidebar").remove();
-            $('[class*="Axies_ListingWrapper"]').removeClass("AxieDexCustomized")
-
-            addBookmarksSidebar();
-          }, 100);
-        }
-      );
-    });
   }
+
+  /* For the save button 💾, attach a listener */
+  $("#AxieDexSearchBookmarksSaveButton").on("click", function () {
+    const input = $("#AxieDexSearchBookmarksSaveInput");
+    if (!input.val() || input.val() === "") {
+      alert("Please set a name for this bookmark 🙏");
+      return;
+    }
+
+    const alreadyBookmark = bookmarks.find((b) => b.link == location.href);
+    if (alreadyBookmark) {
+      alert(
+        `This page has already been bookmarked under the name '${alreadyBookmark.name}' 😅`
+      );
+      return;
+    }
+
+    bookmarks.push({ name: input.val() as string, link: location.href });
+
+    chrome.runtime.sendMessage(
+      {
+        contentScriptQuery: "updateSearchBookmarks",
+        bookmarks: bookmarks,
+      },
+      function () {
+        setTimeout(() => {
+          $(".AxieDexSidebar").remove();
+          $('[class*="Axies_ListingWrapper"]').removeClass("AxieDexCustomized")
+
+          addBookmarksSidebar();
+        }, 100);
+      }
+    );
+  });
+
+  /* Apply JQuery UI sortable to the search bookmarks container */
+  $(function () {
+    $(".AxieDexSearchBookmarksLinks").sortable({
+      update: function () {
+        handleSearchBookmarksSort();
+      },
+    });
+  });
+}
+
+/**
+ * Update the bookmarks 🔖 after sorting the elements
+ */
+async function handleSearchBookmarksSort() {
+  console.log("handleSearchBookmarksSort")
+  const originalSearchBookmarks = OPTIONS[SEARCH_BOOKMARKS] || [];
+  const searchBookmarks: SearchBookmarkOption[] = [];
+
+  $(".AxieDexSearchBookmarksLinks > .AxieDexSearchBookmark").each(function () {
+    searchBookmarks.push({
+      name: $(this).data("name"),
+      link: $(this).data("link")
+    });
+  });
+
+  if (originalSearchBookmarks.length != searchBookmarks.length) {
+    return;
+  }
+
+  chrome.runtime.sendMessage(
+    {
+      contentScriptQuery: "updateSearchBookmarks",
+      bookmarks: searchBookmarks,
+    },
+    function () {
+      setTimeout(() => {
+        $(".AxieDexSidebar").remove();
+        $('[class*="Axies_ListingWrapper"]').removeClass("AxieDexCustomized")
+
+        addBookmarksSidebar();
+      }, 100);
+    }
+  );
 }

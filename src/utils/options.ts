@@ -24,7 +24,7 @@ export const USER = "USER";
  * @param {OptionKey} key - Preference key
  * @param {any} value - Function that will return the result
  */
-export const putOption = function(key: OptionKey, value: any) {
+export const putOption = function (key: OptionKey, value: any) {
   const options: Options = {};
   options[key] = value;
   putOptions(options);
@@ -34,8 +34,8 @@ export const putOption = function(key: OptionKey, value: any) {
  * Set all the preferences at once
  * @param {Options} options - Preferences
  */
- export const putOptions = function(options: Options) {
-  chrome.storage.sync.set(options, function () {});
+export const putOptions = function (options: Options) {
+  chrome.storage.sync.set(options, function () { });
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     if (tabs[0] && tabs[0].id) {
       chrome.tabs.sendMessage(tabs[0].id, { rerun: true });
@@ -48,7 +48,7 @@ export const putOption = function(key: OptionKey, value: any) {
  * @param {OptionKey} key - Preference key
  * @param {any} callback - Callback function that is called when chrome.storage.sync.get is done
  */
- export const getOption = function(key: OptionKey, callback: any) {
+export const getOption = function (key: OptionKey, callback: any) {
   chrome.storage.sync.get([key], callback);
 }
 
@@ -56,7 +56,7 @@ export const putOption = function(key: OptionKey, value: any) {
  * Get all the preferences at once
  * @param {any} callback - Callback function that is called when chrome.storage.sync.get is done
  */
- export const getOptions = function(callback: any) {
+export const getOptions = function (callback: any) {
   chrome.storage.sync.get(
     [
       PURITY_TABLE,
@@ -83,7 +83,7 @@ export const putOption = function(key: OptionKey, value: any) {
  * Reset all the preferences at once
  * @param {Options} options - Existing preferences that will overwrite the default preferences for the present keys
  */
- export const resetOptions = function(options: Options) {
+export const resetOptions = function (options: Options) {
   const defaultOptions: Options = {};
 
   defaultOptions[EXTENSION_ENABLED] = options[EXTENSION_ENABLED] != null ? options[EXTENSION_ENABLED] : true;
@@ -93,31 +93,31 @@ export const putOption = function(key: OptionKey, value: any) {
     options[PURITY_TABLE] != null
       ? options[PURITY_TABLE]
       : [
-          {
-            type: "C",
-            purity: 100,
-            color: "#4c0f0f",
-          },
-        ];
+        {
+          type: "C",
+          purity: 100,
+          color: "#4c0f0f",
+        },
+      ];
   defaultOptions[SEARCH_BOOKMARKS] =
     options[SEARCH_BOOKMARKS] != null
       ? options[SEARCH_BOOKMARKS]
       : [
-          {
-            link: "https://marketplace.axieinfinity.com/axie",
-            name: "HOME PAGE",
-          },
-        ];
+        {
+          link: "https://marketplace.axieinfinity.com/axie",
+          name: "HOME PAGE",
+        },
+      ];
 
   defaultOptions[AXIE_BOOKMARKS] =
     options[AXIE_BOOKMARKS] != null
       ? options[AXIE_BOOKMARKS]
       : [
-          {
-            id: 100,
-            class: "Beast",
-          },
-        ];
+        {
+          id: 100,
+          class: "Beast",
+        },
+      ];
   defaultOptions[SIMILAR_AXIES_ENABLED] = options[SIMILAR_AXIES_ENABLED] != null ? options[SIMILAR_AXIES_ENABLED] : true;
   defaultOptions[SHOW_GENES_PURITY] = options[SHOW_GENES_PURITY] != null ? options[SHOW_GENES_PURITY] : true;
   defaultOptions[EYES_EARS_GENES_PURITY_INCLUDED] = options[EYES_EARS_GENES_PURITY_INCLUDED] != null ? options[EYES_EARS_GENES_PURITY_INCLUDED] : false;

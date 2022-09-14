@@ -31,10 +31,12 @@
       ],
       "js": [
         "lib/jquery-3.3.1.slim.js",
+        "lib/jquery-ui.js",
         "contentScript.js"
       ],
       "css": [
-        "lib/custom_content_script.css"
+        "lib/custom_content_script.css",
+        "lib/jquery-ui.css"
       ]
     }
   ],

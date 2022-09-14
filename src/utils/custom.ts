@@ -3,7 +3,8 @@
  * @author tonystrawberry
  */
 
-import { EYES_EARS_GENES_SEARCH_INCLUDED, EYES_EARS_GENES_PURITY_INCLUDED, OPTIONS } from "@/initializers/options";
+import { EYES_EARS_GENES_SEARCH_INCLUDED, EYES_EARS_GENES_PURITY_INCLUDED } from "@/utils/options";
+import { OPTIONS } from "@/initializers/options";
 
 /**
  * Build a link searching for similar Axies from an Axie object

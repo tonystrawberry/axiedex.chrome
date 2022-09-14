@@ -8,7 +8,8 @@
 
 import { initializeSalesListPage } from "@/pages/salesListPage";
 import { initializeBodyParts } from "@/initializers/bodyParts";
-import { EXTENSION_ENABLED, getOptions, initializeOptions } from "@/initializers/options";
+import { initializeOptions } from "@/initializers/options";
+import { EXTENSION_ENABLED, getOptions } from "@/utils/options";
 
 /**
  * Method that will call everytime the current page needs to be initialized
