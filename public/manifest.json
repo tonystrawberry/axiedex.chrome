@@ -1,6 +1,6 @@
 {
   "name": "AxieDex - The Ultimate Axie Extension",
-  "version": "3.0",
+  "version": "3.1.2",
   "description": "An extension to display comprehensive Axies information on the Marketplace. Tremendously useful for finding your perfect Axie.",
   "permissions": [
     "storage"

@@ -1,6 +1,6 @@
 {
   "name": "AxieDex - The Ultimate Axie Extension",
-  "version": "3.0",
+  "version": "3.1.2",
   "description": "An extension to display comprehensive Axies information on the Marketplace. Tremendously useful for finding your perfect Axie.",
   "permissions": [
     "storage"
@@ -30,7 +30,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://marketplace.axieinfinity.com/*"
+        "https://app.axieinfinity.com/*"
       ],
       "css": [
         "lib/custom_content_script.css",
@@ -38,6 +38,7 @@
       ],
       "js": [
         "lib/jquery-3.3.1.slim.js",
+        "lib/jquery-ui.js",
         "contentScript.js"
       ]
     }

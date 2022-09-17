@@ -7,6 +7,8 @@
  */
 
 import { initializeSalesListPage } from "@/pages/salesListPage";
+import { initializeProfileInventoryPage } from "@/pages/profileInventoryPage";
+import { initializeAxieIndividualPage } from "@/pages/axieIndividualPage";
 import { initializeBodyParts } from "@/initializers/bodyParts";
 import { initializeOptions } from "@/initializers/options";
 import { EXTENSION_ENABLED, getOptions } from "@/utils/options";
@@ -24,10 +26,19 @@ const initialize = async function (returnedOptions: Options) {
 
   initializeBodyParts();
 
-  const isSalesListPage = window.location.pathname.startsWith("/marketplace/axies");
+  const isSalesListPage = window.location.pathname == "/marketplace/axies/";
+
+  const isProfileInventoryPage = window.location.pathname == "/profile/inventory/axies/";
+
+  const axieIndividualPagePathRegex = /marketplace\/axies\/\d+/
+  const isAxieIndividualPage = window.location.pathname.match(axieIndividualPagePathRegex);
 
   if (isSalesListPage) {
     initializeSalesListPage();
+  } else if (isProfileInventoryPage) {
+    initializeProfileInventoryPage();
+  } else if (isAxieIndividualPage) {
+    initializeAxieIndividualPage();
   }
 };
 
@@ -48,7 +59,10 @@ const OBSERVER_CONFIG = {
  */
 const observerCallback = function (mutationsList: any) {
   // Ignore on non-supported pages
-  if (!window.location.href.startsWith("https://app.axieinfinity.com/marketplace/axies")) {
+  if (
+    !window.location.href.startsWith("https://app.axieinfinity.com/marketplace/axies") &&
+    !window.location.href.startsWith("https://app.axieinfinity.com/profile/inventory/axies")
+    ) {
     return;
   }
 

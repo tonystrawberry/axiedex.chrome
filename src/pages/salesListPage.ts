@@ -271,7 +271,6 @@ const initializeSearchBookmarkInSidebar = function (axieListingElement: JQuery<H
  * Update the bookmarks 🔖 after sorting the elements
  */
 async function handleSearchBookmarksSort() {
-  console.log("handleSearchBookmarksSort")
   const originalSearchBookmarks = OPTIONS[SEARCH_BOOKMARKS] || [];
   const searchBookmarks: SearchBookmarkOption[] = [];
 
