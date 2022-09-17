@@ -22,15 +22,17 @@ type AxieTraits = {
 };
 
 type AxieTrait = {
+  class?: string,
   d: AxieTraitDetails;
   r1: AxieTraitDetails;
   r2: AxieTraitDetails;
-  mystic: boolean;
+  mystic?: boolean;
 };
 
 type AxieTraitDetails = {
-  class: string;
-  partId: string;
+  name: string;
+  class?: string;
+  partId?: string;
 };
 
 type AxieColor = {

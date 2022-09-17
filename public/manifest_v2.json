@@ -1,6 +1,6 @@
 {
   "name": "AxieDex - The Ultimate Axie Extension",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "An extension to display comprehensive Axies information on the Marketplace. Tremendously useful for finding your perfect Axie.",
   "permissions": [
     "storage"
@@ -44,8 +44,8 @@
     }
   ],
   "web_accessible_resources": [
-    "bodyParts.json",
-    "cardInfos.json",
+    "data/bodyParts.json",
+    "data/cardInfos.json",
     "images/originCards/*"
   ],
   "manifest_version": 2

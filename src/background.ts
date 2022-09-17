@@ -4,11 +4,27 @@
  * @author tonystrawberry
  */
 
-import { SEARCH_BOOKMARKS, putOption, AXIE_BOOKMARKS } from "@/utils/options"
+import { SEARCH_BOOKMARKS, putOption, AXIE_BOOKMARKS, getOptions, resetOptions } from "@/utils/options"
+import { OPTIONS } from "@/initializers/options";
+
 /**
  * Chrome runtime listeners (onMessage, onInstalled)
  * All listenable events can be found here: https://developer.chrome.com/docs/extensions/reference/runtime/#event
  */
+
+chrome.runtime.onInstalled.addListener(() => {
+  getOptions((response: Options) => {
+    let options = Object.keys(OPTIONS);
+
+    if (
+      Object.keys(response).length == 0 ||
+      Object.keys(response).length != options.length
+    ) {
+      resetOptions(response);
+    }
+  });
+});
+
 
 /* Set a listener for the onMessage events that are called by contentScript.js */
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {

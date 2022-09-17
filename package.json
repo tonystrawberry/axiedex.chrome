@@ -99,7 +99,8 @@
     "webpack-merge": "^5.8.0",
     "webpack-sources": "^3.2.3",
     "which": "^2.0.2",
-    "wildcard": "^2.0.0"
+    "wildcard": "^2.0.0",
+    "zx": "^7.0.8"
   },
   "repository": {
     "type": "git",

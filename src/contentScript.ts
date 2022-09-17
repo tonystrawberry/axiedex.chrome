@@ -9,6 +9,7 @@
 import { initializeSalesListPage } from "@/pages/salesListPage";
 import { initializeProfileInventoryPage } from "@/pages/profileInventoryPage";
 import { initializeAxieIndividualPage } from "@/pages/axieIndividualPage";
+import { initializeCardInfos } from "@/initializers/cardInfos";
 import { initializeBodyParts } from "@/initializers/bodyParts";
 import { initializeOptions } from "@/initializers/options";
 import { EXTENSION_ENABLED, getOptions } from "@/utils/options";
@@ -24,6 +25,7 @@ const initialize = async function (returnedOptions: Options) {
     return;
   }
 
+  initializeCardInfos();
   initializeBodyParts();
 
   const isSalesListPage = window.location.pathname == "/marketplace/axies/";
