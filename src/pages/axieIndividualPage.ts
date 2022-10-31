@@ -4,7 +4,7 @@
  * @author tonystrawberry
  */
 
-import { getAxieInfo } from "@/api/axieTechnology";
+import { getAxieInfo } from "@/api/roninRest";
 import { buildSimilarAxieLink, getGenesQuality } from "@/utils/custom";
 import { OPTIONS } from "@/initializers/options";
 import { SIMILAR_AXIES_ENABLED } from "@/utils/options";

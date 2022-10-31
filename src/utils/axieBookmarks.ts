@@ -3,7 +3,7 @@
  * @author tonystrawberry
  */
 
-import { getAxieInfo } from "@/api/axieTechnology";
+import { getAxieInfo } from "@/api/roninRest";
 import { OPTIONS } from "@/initializers/options";
 import { addBookmarksSidebar } from "@/pages/salesListPage";
 import { AXIE_BOOKMARKS, getOptions } from "./options";

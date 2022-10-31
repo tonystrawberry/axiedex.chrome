@@ -4,7 +4,7 @@
  * @author tonystrawberry
  */
 
-import { getAxieInfo } from "@/api/axieTechnology";
+import { getAxieInfo } from "@/api/roninRest";
 import { buildSimilarAxieLink, getGenesQuality } from "@/utils/custom";
 import { OPTIONS } from "@/initializers/options";
 import { AXIE_BOOKMARKS, SIMILAR_AXIES_ENABLED } from "@/utils/options";
@@ -42,10 +42,10 @@ export const initializeSalesListPage = async function () {
 
   /* Get infos of all the Axies */
   const axies = await getAxieInfo(axieElements.map((axieElement) => axieElement.axieId));
-
   for (const i in axieElements) {
     const axieElement = axieElements[i];
     const axie = axies.find((axie) => axieElement.axieId == axie.id);
+
     if (axie) {
       customizeAxieSingleCard(axieElement.axieElement, axie);
     }
@@ -97,6 +97,7 @@ const getAxieDOMElementsData = function () {
  * @param {Axie} axie - Axie
  */
 const customizeAxieSingleCard = function (axieElement: JQuery<HTMLElement>, axie: Axie) {
+
   /* Skip this customization if the element has already been processed */
   if ($(axieElement).hasClass("AxieDexCustomized")) {
     return;
