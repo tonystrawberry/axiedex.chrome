@@ -7,11 +7,17 @@
   AxieDex - The Ultimate Axie Extension
 </h1>
 
-## 🖥 Browser extension compatible with Chrome, Brave, Mozilla  
+## ⚠️ Repository No Longer Maintained
+
+**Notice:** This repository is no longer actively maintained. Issues and pull requests will not be monitored or addressed. Feel free to fork the repository if you'd like to continue its development.
+
+For any inquiries, you can reach out to me by email at `tony.duong.102@gmail.com`.
+
+## 🖥 Browser extension compatible with Chrome, Brave, Mozilla
 
 - 🛠 Built with ❤️ when I was still an active player of Axie Infinity
 - 👩‍🎨 Inspired by <a href="https://chrome.google.com/webstore/detail/freaks-axie-extension/copjnifcecdedocejpaapepagaodgpbh" target="_blank">Freak's extension</a> (now obsolete)
-- 🥰 Written in the awesome Typescript language 
+- 🥰 Written in the awesome Typescript language
 
 ## 👨🏻‍💻 Local development (with Chrome)
 
